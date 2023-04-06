@@ -5,7 +5,7 @@ public class Node implements Comparable<Node>{
     private double hn;
     private String[] visited;
 
-    public Node(String c, String g, int gn, int hn, String[] visited){
+    public Node(String c, String g, int gn, double hn, String[] visited){
         current=c;
         goal = g;
         this.gn = gn;
