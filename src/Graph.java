@@ -39,12 +39,12 @@ public class Graph {
                     graph[i][j] = Integer.parseInt(splited[j]);
                 }
             }
+
         }catch (FileNotFoundException e){
             System.out.println("File not found!");
             e.printStackTrace();
         }
     }
-
     public double euclideanDistance(double[] l1, double[] l2){
         return (Math.sqrt( Math.pow(l1[0]-l2[0], 2) + Math.pow(l1[1]-l2[1], 2) ));
     }
