@@ -1,18 +1,20 @@
+import java.util.*;
+
 public class Node implements Comparable<Node>{
     private String current;
     private String goal;
     private double gn;
     private double hn;
-    private String[] visited;
+    private ArrayList<String> visited = new ArrayList<>();
 
-    public Node(String c, String g, int gn, int hn, String[] visited){
+    public Node(String c, String g, double gn, double hn, ArrayList<String> visited){
         current=c;
         goal = g;
         this.gn = gn;
         this.hn = hn;
         this.visited = visited;
     }
-    public Node(String c, String g, int gn, String[] visited){
+    public Node(String c, String g, double gn, ArrayList<String> visited){
         current=c;
         goal = g;
         this.gn = gn;
@@ -44,8 +46,8 @@ public class Node implements Comparable<Node>{
         }
     }
 
-    public String getPath(){
-        return visited.toString();
+    public ArrayList<String> getPath(){
+        return visited;
     }
 
     @Override

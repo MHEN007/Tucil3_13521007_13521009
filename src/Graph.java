@@ -1,15 +1,11 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.math.*;
 
 public class Graph {
-    private int graph[][];
+    private int[][] graph;
     private int nodes;
-    private Map<String, double[]> loc = new HashMap<String, double[]>();
+    public Location[] loc;
 
     public Graph(String filename){
         try{
@@ -23,14 +19,13 @@ public class Graph {
             graph = new int[n][n];
 
             /* Insert lokasi */
+            loc = new Location[n];
             for(int i = 0; i < n ; i++){
                 String line = reader.nextLine();
                 String[] parse = line.split("\\s+");
-                double coord[] = new double[2];
-                coord[0] = Double.parseDouble(parse[1]);
-                coord[1] = Double.parseDouble(parse[2]);
-                loc.put(parse[0], coord);
+                loc[i] = new Location(parse[0], Double.parseDouble(parse[1]), Double.parseDouble(parse[2]));
             }
+
             /* Fill the matrix */
             for(int i = 0; i < n ; i++){
                 String line = reader.nextLine();
@@ -39,6 +34,8 @@ public class Graph {
                     graph[i][j] = Integer.parseInt(splited[j]);
                 }
             }
+
+            reader.close();
 
         }catch (FileNotFoundException e){
             System.out.println("File not found!");
@@ -49,14 +46,50 @@ public class Graph {
         return (Math.sqrt( Math.pow(l1[0]-l2[0], 2) + Math.pow(l1[1]-l2[1], 2) ));
     }
 
-    public double[] getPos(String key){
-        double[] ret = new double[2];
-        ret[0] = loc.get(key)[0]; 
-        ret[1] = loc.get(key)[1];
-        return ret;
+    public double[] getPos(String locName){
+        int idx = 0;
+        for(int i = 0; i < nodes; i++){
+            if(loc[i].getLocName().equals(locName))
+            {
+                idx = i;
+                break;
+            }
+        }
+        return loc[idx].getCoord();
+    }
+
+    public String getLocName(int i){
+        return loc[i].getLocName();
+    }
+
+    public int getIndex(String locName){
+        int idx = 0;
+        for(int i = 0; i < nodes; i++){
+            if(loc[i].getLocName().equals(locName))
+            {
+                idx = i;
+                break;
+            }
+        }
+        return idx;
+    }
+
+    public int getGraph(int b, int c){
+        return graph[b][c];
+    }
+
+    public int getNodes(){
+        return nodes;
     }
 
     public static void main(String[] args){
-        Graph g = new Graph("map1.txt");
+        Graph g = new Graph("test.txt");
+        System.out.println(g.getIndex("Santa_Ursula"));
+        for(int i = 0; i < g.getNodes(); i++){
+            for(int j = 0; j < g.getNodes(); j++){
+                System.out.print(g.getGraph(i, j) + " ");
+            }
+            System.out.println();
+        }
     }
 }
