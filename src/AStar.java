@@ -25,13 +25,14 @@ public class AStar{
                 if(graph.getGraph(graph.getIndex(check.getCurrent()), i) > 0 && !check.getPath().contains(graph.getLocName(i))){
                     /* Masukkan ke prioqueue 
                      * Buat nodes baru
-                     */                  
+                     */
                     ArrayList<String> visitNew = new ArrayList<>(check.getPath());
+
                     visitNew.add(graph.getLocName(i));
 
                     Node newNode = new Node(graph.getLocName(i), 
                                             check.getGoal(), 
-                                            graph.euclideanDistance(graph.getPos(check.getCurrent()), graph.getPos(graph.getLocName(i))), 
+                                            graph.getGraph(graph.getIndex(check.getCurrent()), i) + check.getGn(), 
                                             graph.euclideanDistance(graph.getPos(graph.getLocName(i)), graph.getPos(check.getGoal())),
                                             visitNew);
 
