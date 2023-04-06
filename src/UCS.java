@@ -5,7 +5,7 @@ public class UCS
     private PriorityQueue<Node> hidup;
     private Node eNode;
     private Graph map;
-    private double gn_UCS = 0;
+    public double gn_UCS = 0;
     public ArrayList<String> solvedPath;
 
     public UCS(String startLoc, String finishLoc, String filename)
@@ -28,7 +28,7 @@ public class UCS
 
                 Node newNode = new Node(map.getLocName(i), 
                                         eNode.getGoal(), 
-                                        eNode.getGn(), 
+                                        map.euclideanDistance(map.getPos(eNode.getCurrent()), map.getPos(map.getLocName(i))),
                                         visitNew);
 
                 hidup.add(newNode);
@@ -45,6 +45,7 @@ public class UCS
         {
             checkNode();
             if(eNode.getCurrent().equals(eNode.getGoal())){
+                this.gn_UCS = eNode.getGn();
                 this.solvedPath = eNode.getPath();
             }
             detectAdjacency();
@@ -58,5 +59,6 @@ public class UCS
         for(int i = 0; i < path.size(); i++){
             System.out.println(path.get(i));
         }
+        System.out.println(test.gn_UCS);
     }
 }
