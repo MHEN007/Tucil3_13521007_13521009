@@ -26,17 +26,13 @@ public class AStar{
                     /* Masukkan ke prioqueue 
                      * Buat nodes baru
                      */
-                    ArrayList<String> visitNew = new ArrayList<>();
-
-                    for(int j = 0; j < check.getPath().size(); j++){
-                        visitNew.add(check.getPath().get(j));
-                    }
+                    ArrayList<String> visitNew = new ArrayList<>(check.getPath());
 
                     visitNew.add(graph.getLocName(i));
 
                     Node newNode = new Node(graph.getLocName(i), 
                                             check.getGoal(), 
-                                            graph.euclideanDistance(graph.getPos(check.getCurrent()), graph.getPos(graph.getLocName(i))), 
+                                            graph.getGraph(graph.getIndex(check.getCurrent()), i) + check.getGn(), 
                                             graph.euclideanDistance(graph.getPos(graph.getLocName(i)), graph.getPos(check.getGoal())),
                                             visitNew);
 
@@ -49,7 +45,7 @@ public class AStar{
     }
 
     public static void main(String[] args){
-        AStar a = new AStar("Merdeka_Timur", "M.H._Thamrin", "test.txt");
+        AStar a = new AStar("Merdeka_Timur", "M.H._Thamrin", "map1.txt");
         ArrayList<String> path = a.Solver();
 
         for(int i = 0; i < path.size(); i++){
