@@ -7,6 +7,7 @@ public class Node implements Comparable<Node>{
     private double hn;
     private ArrayList<String> visited = new ArrayList<>();
 
+    /* Node untuk A* */
     public Node(String c, String g, double gn, double hn, ArrayList<String> visited){
         current=c;
         goal = g;
@@ -14,11 +15,13 @@ public class Node implements Comparable<Node>{
         this.hn = hn;
         this.visited = visited;
     }
+
+    /* Node untuk UCS, tidak ada nilai h(n) */
     public Node(String c, String g, double gn, ArrayList<String> visited){
         current=c;
         goal = g;
         this.gn = gn;
-        this.hn = -1;
+        this.hn = 0;
         this.visited = visited;
     }
 
@@ -39,11 +42,7 @@ public class Node implements Comparable<Node>{
     }
 
     public double calculateFN(){
-        if (this.hn==-1){
-            return gn;
-        }else{
-            return hn+gn;
-        }
+        return hn+gn;
     }
 
     public ArrayList<String> getPath(){
