@@ -25,13 +25,8 @@ public class AStar{
                 if(graph.getGraph(graph.getIndex(check.getCurrent()), i) > 0 && !check.getPath().contains(graph.getLocName(i))){
                     /* Masukkan ke prioqueue 
                      * Buat nodes baru
-                     */
-                    ArrayList<String> visitNew = new ArrayList<>();
-
-                    for(int j = 0; j < check.getPath().size(); j++){
-                        visitNew.add(check.getPath().get(j));
-                    }
-
+                     */                  
+                    ArrayList<String> visitNew = new ArrayList<>(check.getPath());
                     visitNew.add(graph.getLocName(i));
 
                     Node newNode = new Node(graph.getLocName(i), 
@@ -49,7 +44,7 @@ public class AStar{
     }
 
     public static void main(String[] args){
-        AStar a = new AStar("Merdeka_Timur", "M.H._Thamrin", "test.txt");
+        AStar a = new AStar("Merdeka_Timur", "M.H._Thamrin", "map1.txt");
         ArrayList<String> path = a.Solver();
 
         for(int i = 0; i < path.size(); i++){

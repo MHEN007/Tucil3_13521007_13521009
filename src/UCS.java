@@ -1,14 +1,62 @@
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class UCS 
 {
     private PriorityQueue<Node> hidup;
-    private Node simpulE = hidup.peek();
+    private Node eNode;
     private Graph map;
-    public UCS(String filename, Node start, Node finish)
+    private double gn_UCS = 0;
+    public ArrayList<String> solvedPath;
+
+    public UCS(String startLoc, String finishLoc, String filename)
     {
-        this.map = new Graph("map1.txt");
-        this.hidup = new PriorityQueue<Node>();
+        map = new Graph(filename);
+        ArrayList<String> visitedLocs = new ArrayList<>();
+        visitedLocs.add(startLoc);
+        Node startNode = new Node(startLoc, finishLoc, gn_UCS, visitedLocs);
+        hidup = new PriorityQueue<Node>();
+        hidup.add(startNode);
     }
-    // private detectHidup();
+    private void detectAdjacency()
+    {
+        for(int i = 0; i < map.getNodes() ; i++){
+            if(map.getGraph(map.getIndex(eNode.getCurrent()), i) > 0 && !eNode.getPath().contains(map.getLocName(i))){
+
+                //Menambahkan path yang akan diambil ke path yang sudah dilewati
+                ArrayList<String> visitNew = new ArrayList<>(eNode.getPath());
+                visitNew.add(map.getLocName(i));
+
+                Node newNode = new Node(map.getLocName(i), 
+                                        eNode.getGoal(), 
+                                        eNode.getGn(), 
+                                        visitNew);
+
+                hidup.add(newNode);
+            }
+        }
+    }
+    private void checkNode()
+    {
+        this.eNode = hidup.remove();
+    }
+    public ArrayList<String> Solver()
+    {
+        while (hidup.size()!=0)
+        {
+            checkNode();
+            if(eNode.getCurrent().equals(eNode.getGoal())){
+                this.solvedPath = eNode.getPath();
+            }
+            detectAdjacency();
+        }
+        return this.solvedPath;
+    }
+    public static void main(String[] args) {
+        UCS test = new UCS("Merdeka_Timur", "M.H._Thamrin", "map1.txt");
+        ArrayList<String> path = test.Solver();
+
+        for(int i = 0; i < path.size(); i++){
+            System.out.println(path.get(i));
+        }
+    }
 }
