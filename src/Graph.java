@@ -33,13 +33,11 @@ public class Graph {
                 System.out.println();
             }
 
+            reader.close();
+
         }catch (FileNotFoundException e){
             System.out.println("File not found!");
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args){
-        Graph g = new Graph("map1.txt");
     }
 }
