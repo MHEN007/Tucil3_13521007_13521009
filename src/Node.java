@@ -1,8 +1,8 @@
 public class Node implements Comparable<Node>{
     private String current;
     private String goal;
-    private int gn;
-    private int hn;
+    private double gn;
+    private double hn;
     private String[] visited;
 
     public Node(String c, String g, int gn, int hn, String[] visited){
@@ -28,15 +28,15 @@ public class Node implements Comparable<Node>{
         return goal;
     }
 
-    public int getGn(){
+    public double getGn(){
         return gn;
     }
 
-    public int getHn(){
+    public double getHn(){
         return hn;
     }
 
-    public int calculateFN(){
+    public double calculateFN(){
         if (this.hn==-1){
             return gn;
         }else{
