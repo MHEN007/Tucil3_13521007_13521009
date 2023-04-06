@@ -12,6 +12,13 @@ public class Node implements Comparable<Node>{
         this.hn = hn;
         this.visited = visited;
     }
+    public Node(String c, String g, int gn, String[] visited){
+        current=c;
+        goal = g;
+        this.gn = gn;
+        this.hn = -1;
+        this.visited = visited;
+    }
 
     public String getCurrent(){
         return current;
@@ -30,7 +37,11 @@ public class Node implements Comparable<Node>{
     }
 
     public int calculateFN(){
-        return hn+gn;
+        if (this.hn==-1){
+            return gn;
+        }else{
+            return hn+gn;
+        }
     }
 
     public String getPath(){
