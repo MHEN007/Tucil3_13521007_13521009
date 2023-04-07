@@ -1,14 +1,13 @@
 import java.util.*;
 
-public class UCS 
+public class UCS extends Graph
 {
     private PriorityQueue<Node> hidup;
-    private Graph map;
     public double gn_UCS = 0;
 
     public UCS(String startLoc, String finishLoc, String filename)
     {
-        map = new Graph(filename);
+        super(filename);
         ArrayList<String> visitedLocs = new ArrayList<>();
         visitedLocs.add(startLoc);
         Node startNode = new Node(startLoc, finishLoc, gn_UCS, visitedLocs);
@@ -24,26 +23,25 @@ public class UCS
                 return (check.getPath());
             }
 
-            for(int i = 0; i < map.getNodes() ; i++){
-                if(map.getGraph(map.getIndex(check.getCurrent()), i) > 0 && !check.getPath().contains(map.getLocName(i))){
+            for(int i = 0; i < getNodes() ; i++){
+                if(getGraph(getIndex(check.getCurrent()), i) > 0 && !check.getPath().contains(getLocName(i))){
                     ArrayList<String> visitNew = new ArrayList<>(check.getPath());
 
-                    visitNew.add(map.getLocName(i));
+                    visitNew.add(getLocName(i));
 
-                    Node newNode = new Node(map.getLocName(i), 
+                    Node newNode = new Node(getLocName(i), 
                                             check.getGoal(), 
-                                            map.getGraph(map.getIndex(check.getCurrent()), i) + check.getGn(), 
+                                            getGraph(getIndex(check.getCurrent()), i) + check.getGn(), 
                                             visitNew);
 
                     hidup.add(newNode);
                 }
             }
-
         }
         return new ArrayList<>();
     }
     public static void main(String[] args) {
-        UCS test = new UCS("baru", "catch", "map1.txt");
+        UCS test = new UCS("1", "2", "map2.txt");
         ArrayList<String> path = test.Solver();
 
         for(int i = 0; i < path.size(); i++){

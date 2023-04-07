@@ -3,9 +3,9 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Graph {
-    private int[][] graph;
-    private int nodes;
-    public Location[] loc;
+    protected int[][] graph;
+    protected int nodes;
+    protected Location[] loc;
 
     public Graph(String filename){
         try{
