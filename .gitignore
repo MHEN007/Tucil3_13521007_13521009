@@ -1,1 +1,8 @@
 *.class
+/doc/*.png
+/doc/*.aux
+/doc/*.log
+/doc/*.synctex.gz
+/doc/*.toc
+/doc/*.tex
+/doc/*.out
