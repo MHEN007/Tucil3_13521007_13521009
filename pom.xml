@@ -9,8 +9,7 @@
   <version>1</version>
 
   <name>tucil3_13521007</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>https://github.com/MHEN2606/Tucil3_13521007</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,14 +25,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.google.maps</groupId>
-      <artifactId>google-maps-services</artifactId>
-      <version>2.2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>1.7.25</version>
+      <groupId>org.jxmapviewer</groupId>
+      <artifactId>jxmapviewer2</artifactId>
+      <version>2.5</version>
     </dependency>
   </dependencies>
 
