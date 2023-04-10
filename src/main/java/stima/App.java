@@ -43,21 +43,22 @@ public class App
         // Read file and create graph
         Graph graph = new Graph(fileName);
         // Print location
+        System.out.println("\nMAP LOCATIONS: ");
         for (int i = 0; i < graph.getLocCount(); i++) {
-            System.out.println(graph.getLocName(i));
+            System.out.println((i+1) + ". " + graph.getLocName(i));
         }
 
         //input start and finish location
-        System.out.println("Enter the starting location name:");
+        System.out.println("\nEnter the starting location name:");
         String startingPosition = System.console().readLine();
-        System.out.println("Enter the target finish location name:");
+        System.out.println("\nEnter the target finish location name:");
         String finishPosition = System.console().readLine();
 
         // Calling solver from algorithms
         Solver _solver = new Solver(startingPosition, finishPosition, fileName);
         
         // Choosing algorithm
-        System.out.println("Choose the algorithm you want to use:");
+        System.out.println("\nPlease choose the algorithm for pathfinding:");
         System.out.println("1. UCS");
         System.out.println("2. A*");
         int choice = Integer.parseInt(System.console().readLine());
@@ -72,10 +73,16 @@ public class App
             System.out.println("Invalid choice");
             return;
         }
+
+        System.out.println("Shortest Path:");
         for(int i = 0; i < path.size(); i++){
-            System.out.println(path.get(i));
+            if(i != path.size() - 1){
+                System.out.print(path.get(i) + " - ");
+            }else{
+                System.out.println(path.get(i));
+            }
         }
-        System.out.println(_solver.getJarak());
+        System.out.println("Distance: " + _solver.getJarak());
         
         // Instantiate JXMapViewer
         JXMapViewer mapViewer = new JXMapViewer();
@@ -108,7 +115,12 @@ public class App
         RoutePainter routePainter = new RoutePainter(solvedPath);
 
         // Set the focus
-        mapViewer.zoomToBestFit(new HashSet<GeoPosition>(solvedPath), 0.2);
+        double frac = 0.1;
+        if(frac * path.size() <= 1){
+            mapViewer.zoomToBestFit(new HashSet<GeoPosition>(solvedPath), frac*path.size());
+        }else{
+            mapViewer.zoomToBestFit(new HashSet<GeoPosition>(solvedPath), 0.2);
+        }
 
         // Create waypoints from the geo-positions
         List<Waypoint> waypointsList = new ArrayList<Waypoint>();

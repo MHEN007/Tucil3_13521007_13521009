@@ -54,7 +54,7 @@ public class Node implements Comparable<Node>{
     public int compareTo(Node o) {
         if(calculateFN() < o.calculateFN()){
             return -1;
-        }else if (calculateFN() < o.calculateFN()){
+        }else if (calculateFN() == o.calculateFN()){
             return 0;
         }else{
             return 1;
