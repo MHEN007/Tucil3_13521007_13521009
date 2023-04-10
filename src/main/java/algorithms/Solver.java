@@ -89,22 +89,4 @@ public class Solver extends Graph{
     public double getJarak(){
         return jarak;
     }
-
-
-    public static void main(String[] args) {
-        Solver s = new Solver("1", "10", "map2.txt");
-        ArrayList<String> path = s.UCS();
-
-        for(int i = 0; i < path.size(); i++){
-            System.out.println(path.get(i));
-        }
-        System.out.println(s.getJarak());
-
-        path = s.AStar();
-
-        for(int i = 0; i < path.size(); i++){
-            System.out.println(path.get(i));
-        }
-        System.out.println(s.getJarak());
-    }
 }

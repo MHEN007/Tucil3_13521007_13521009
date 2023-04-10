@@ -94,15 +94,4 @@ public class Graph {
     public int getLocCount(){
         return loc.length;
     }
-
-    public static void main(String[] args){
-        Graph g = new Graph("map1.txt");
-        System.out.println(g.getIndex("Santa_Ursula"));
-        for(int i = 0; i < g.getNodes(); i++){
-            for(int j = 0; j < g.getNodes(); j++){
-                System.out.print(g.getGraph(i, j) + " ");
-            }
-            System.out.println();
-        }
-    }
 }
