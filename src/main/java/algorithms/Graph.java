@@ -24,12 +24,7 @@ public class Graph {
             for(int i = 0; i < n ; i++){
                 String line = reader.nextLine();
                 String[] parse = line.split("\\s+");
-                if(parse.length == 3){
-                    loc[i] = new Location(parse[0], Double.parseDouble(parse[1]), Double.parseDouble(parse[2]));
-                }else{
-                    /* Kasus Non Bonus */
-                    loc[i] = new Location(parse[0], -9999, -9999);
-                }
+                loc[i] = new Location(parse[0], Double.parseDouble(parse[1]), Double.parseDouble(parse[2]));
             }
 
             /* Fill the matrix */

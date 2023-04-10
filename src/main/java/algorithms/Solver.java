@@ -40,22 +40,11 @@ public class Solver extends Graph{
                     ArrayList<String> visitNew = new ArrayList<>(check.getPath());
 
                     visitNew.add(getLocName(i));
-                    Node newNode;
-                    /* Kondisi Bonus */
-                    if(getPos(getLocName(0))[0] != -9999){
-                        newNode = new Node(getLocName(i), 
+                    Node newNode = new Node(getLocName(i), 
                                             check.getGoal(), 
                                             getGraph(getIndex(check.getCurrent()), i) + check.getGn(), 
                                             euclideanDistance(getPos(getLocName(i)), getPos(check.getGoal())),
                                             visitNew);
-                    }else{
-                    /* Kondisi Bukan Bonus */
-                        newNode = new Node(getLocName(i), 
-                                            check.getGoal(), 
-                                            getGraph(getIndex(check.getCurrent()), i) + check.getGn(), 
-                                            Math.abs(getIndex(getLocName(i))) - getIndex(check.getGoal()),
-                                            visitNew);
-                    }
                     queue.add(newNode);
                 }
             }
