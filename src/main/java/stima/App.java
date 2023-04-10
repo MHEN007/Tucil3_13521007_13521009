@@ -97,7 +97,7 @@ public class App
         // Create a track from the geo-positions
         List<GeoPosition> solvedPath = new ArrayList<GeoPosition>();
 
-        for (int i = 0; i < solvedPath.size(); i++) {
+        for (int i = 0; i < path.size(); i++) {
             solvedPath.add(new GeoPosition(graph.getPos(path.get(i))));
         }
         // Calling RoutePainter from visuals
