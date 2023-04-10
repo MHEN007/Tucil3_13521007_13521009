@@ -1,7 +1,6 @@
 package stima;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -57,22 +56,27 @@ public class App
         // Calling solver from algorithms
         Solver _solver = new Solver(startingPosition, finishPosition, fileName);
         
-        // Path and distance from UCS algorithm
-        ArrayList<String> path = _solver.UCS();
-        
+        // Choosing algorithm
+        System.out.println("Choose the algorithm you want to use:");
+        System.out.println("1. UCS");
+        System.out.println("2. A*");
+        int choice = Integer.parseInt(System.console().readLine());
+        ArrayList<String> path;
+        if (choice == 1) {
+            // Path and distance from UCS algorithm
+            path = _solver.UCS();
+        } else if (choice == 2) {
+            // Path and distance from A* algorithm
+            path = _solver.AStar();
+        } else {
+            System.out.println("Invalid choice");
+            return;
+        }
         for(int i = 0; i < path.size(); i++){
             System.out.println(path.get(i));
         }
         System.out.println(_solver.getJarak());
         
-        // Path and distance from A* algorithm
-        path = _solver.AStar();
-
-        for(int i = 0; i < path.size(); i++){
-            System.out.println(path.get(i));
-        }
-        System.out.println(_solver.getJarak());
-
         // Instantiate JXMapViewer
         JXMapViewer mapViewer = new JXMapViewer();
 
@@ -97,14 +101,14 @@ public class App
         // Create a track from the geo-positions
         List<GeoPosition> solvedPath = new ArrayList<GeoPosition>();
 
-        for (int i = 0; i < solvedPath.size(); i++) {
+        for (int i = 0; i < path.size(); i++) {
             solvedPath.add(new GeoPosition(graph.getPos(path.get(i))));
         }
         // Calling RoutePainter from visuals
         RoutePainter routePainter = new RoutePainter(solvedPath);
 
         // Set the focus
-        mapViewer.zoomToBestFit(new HashSet<GeoPosition>(solvedPath), 10);
+        mapViewer.zoomToBestFit(new HashSet<GeoPosition>(solvedPath), 0.2);
 
         // Create waypoints from the geo-positions
         List<Waypoint> solvedPathWaypoints = new ArrayList<Waypoint>();
