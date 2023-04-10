@@ -1,27 +1,33 @@
 package stima;
 
-import java.awt.BorderLayout;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.WindowConstants;
-import javax.swing.event.MouseInputListener;
 
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
-import org.jxmapviewer.cache.FileBasedLocalCache;
-import org.jxmapviewer.input.CenterMapListener;
-import org.jxmapviewer.input.PanKeyListener;
-import org.jxmapviewer.input.PanMouseInputListener;
-import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
+import org.jxmapviewer.painter.CompoundPainter;
+import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.DefaultTileFactory;
+import org.jxmapviewer.viewer.DefaultWaypoint;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
+import org.jxmapviewer.viewer.Waypoint;
+import org.jxmapviewer.viewer.WaypointPainter;
 
+import algorithms.*;
+import visuals.RoutePainter;
 
+/**
+ * Aplikasi yang menerima file input graf map
+ * dan menampilkan hasil path terpendek dari point start ke point finish
+ * @author Matthew Mahendra
+ * @author Christophorus Dharma Winata
+ */
 public class App
 {
     /**
@@ -29,73 +35,94 @@ public class App
      */
     public static void main(String[] args)
     {
+        // Opening java terminal
+        System.out.println("Welcome to the shortest path finder!");
+        System.out.println("Please enter the file name of the map you want to use:");
+        // Input file name
+        String fileName = System.console().readLine();
+        
+        // Read file and create graph
+        Graph graph = new Graph(fileName);
+        // Print location
+        for (int i = 0; i < graph.getLocCount(); i++) {
+            System.out.println(graph.getLocName(i));
+        }
+
+        //input start and finish location
+        System.out.println("Enter the starting location name:");
+        String startingPosition = System.console().readLine();
+        System.out.println("Enter the target finish location name:");
+        String finishPosition = System.console().readLine();
+
+        // Calling solver from algorithms
+        Solver _solver = new Solver(startingPosition, finishPosition, fileName);
+        
+        // Path and distance from UCS algorithm
+        ArrayList<String> path = _solver.UCS();
+        
+        for(int i = 0; i < path.size(); i++){
+            System.out.println(path.get(i));
+        }
+        System.out.println(_solver.getJarak());
+        
+        // Path and distance from A* algorithm
+        path = _solver.AStar();
+
+        for(int i = 0; i < path.size(); i++){
+            System.out.println(path.get(i));
+        }
+        System.out.println(_solver.getJarak());
+
+        // Instantiate JXMapViewer
+        JXMapViewer mapViewer = new JXMapViewer();
+
+        // Display the viewer in a JFrame
+        JFrame frame = new JFrame("Map Viewer");
+        frame.getContentPane().add(mapViewer);
+        frame.setSize(800, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
         // Create a TileFactoryInfo for OpenStreetMap
         TileFactoryInfo info = new OSMTileFactoryInfo();
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
-
-        // Setup local file cache
-        File cacheDir = new File(System.getProperty("user.home") + File.separator + ".jxmapviewer2");
-        tileFactory.setLocalCache(new FileBasedLocalCache(cacheDir, false));
-
-        // Setup JXMapViewer
-        final JXMapViewer mapViewer = new JXMapViewer();
         mapViewer.setTileFactory(tileFactory);
 
-        GeoPosition itbg = new GeoPosition(-6.890266,107.6108316);
+        // Instantiating locations from input file
+        GeoPosition[] locationsOnMap = new GeoPosition[graph.getLocCount()];
+        for (int i = 0; i < graph.getLocCount(); i++) {
+            locationsOnMap[i]= new GeoPosition(graph.getPos(i));
+        }
+
+        // Create a track from the geo-positions
+        List<GeoPosition> solvedPath = new ArrayList<GeoPosition>();
+
+        for (int i = 0; i < solvedPath.size(); i++) {
+            solvedPath.add(new GeoPosition(graph.getPos(path.get(i))));
+        }
+        // Calling RoutePainter from visuals
+        RoutePainter routePainter = new RoutePainter(solvedPath);
 
         // Set the focus
-        mapViewer.setZoom(2);
-        mapViewer.setAddressLocation(itbg);
+        mapViewer.zoomToBestFit(new HashSet<GeoPosition>(solvedPath), 10);
 
-        // Add interactions
-        MouseInputListener mia = new PanMouseInputListener(mapViewer);
-        mapViewer.addMouseListener(mia);
-        mapViewer.addMouseMotionListener(mia);
+        // Create waypoints from the geo-positions
+        List<Waypoint> solvedPathWaypoints = new ArrayList<Waypoint>();
+        for (int i = 0; i < solvedPath.size(); i++) {
+            solvedPathWaypoints.add(new DefaultWaypoint(solvedPath.get(i)));
+        }
+        Set<Waypoint> waypoints = new HashSet<Waypoint>(solvedPathWaypoints);
 
-        mapViewer.addMouseListener(new CenterMapListener(mapViewer));
+        // Create a waypoint painter that takes all the waypoints
+        WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<Waypoint>();
+        waypointPainter.setWaypoints(waypoints);
 
-        mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCursor(mapViewer));
+        // Create a compound painter that uses both the route-painter and the waypoint-painter
+        List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
+        painters.add(routePainter);
+        painters.add(waypointPainter);
 
-        mapViewer.addKeyListener(new PanKeyListener(mapViewer));
-
-        // Display the viewer in a JFrame
-        final JFrame frame = new JFrame();
-        frame.setLayout(new BorderLayout());
-        String text = "Use left mouse button to pan, mouse wheel to zoom";
-        frame.add(new JLabel(text), BorderLayout.NORTH);
-        frame.add(mapViewer);
-        frame.setSize(800, 600);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-
-        mapViewer.addPropertyChangeListener("zoom", new PropertyChangeListener()
-        {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt)
-            {
-                updateWindowTitle(frame, mapViewer);
-            }
-        });
-
-        mapViewer.addPropertyChangeListener("center", new PropertyChangeListener()
-        {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt)
-            {
-                updateWindowTitle(frame, mapViewer);
-            }
-        });
-
-        updateWindowTitle(frame, mapViewer);
+        CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
+        mapViewer.setOverlayPainter(painter);
     }
-
-    protected static void updateWindowTitle(JFrame frame, JXMapViewer mapViewer)
-    {
-        double lat = mapViewer.getCenterPosition().getLatitude();
-        double lon = mapViewer.getCenterPosition().getLongitude();
-        int zoom = mapViewer.getZoom();
-
-        frame.setTitle(String.format("JXMapviewer2 Example 3 (%.2f / %.2f) - Zoom: %d", lat, lon, zoom));
-    }
-
 }

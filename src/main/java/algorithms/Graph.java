@@ -64,6 +64,15 @@ public class Graph {
         return loc[idx].getCoord();
     }
 
+    /**
+     * Mengembalikan koordinat lokasi berdasarkan indeks
+     * @param i indeks lokasi
+     * @return double[] koordinat lokasi
+     */
+    public double[] getPos(int i){
+        return loc[i].getCoord();
+    }
+
     public String getLocName(int i){
         return loc[i].getLocName();
     }
@@ -87,9 +96,12 @@ public class Graph {
     public int getNodes(){
         return nodes;
     }
+    public int getLocCount(){
+        return loc.length;
+    }
 
     public static void main(String[] args){
-        Graph g = new Graph("test.txt");
+        Graph g = new Graph("map1.txt");
         System.out.println(g.getIndex("Santa_Ursula"));
         for(int i = 0; i < g.getNodes(); i++){
             for(int j = 0; j < g.getNodes(); j++){

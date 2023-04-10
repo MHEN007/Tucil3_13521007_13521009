@@ -19,6 +19,8 @@ import org.jxmapviewer.viewer.TileFactoryInfo;
 import org.jxmapviewer.viewer.Waypoint;
 import org.jxmapviewer.viewer.WaypointPainter;
 
+import visuals.RoutePainter;
+
 /**
  * A simple sample application that shows
  * a OSM map of Europe containing a route with waypoints
