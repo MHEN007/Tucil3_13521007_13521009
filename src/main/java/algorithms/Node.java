@@ -1,3 +1,4 @@
+package algorithms;
 import java.util.*;
 
 public class Node implements Comparable<Node>{

@@ -1,3 +1,4 @@
+package algorithms;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -23,12 +24,7 @@ public class Graph {
             for(int i = 0; i < n ; i++){
                 String line = reader.nextLine();
                 String[] parse = line.split("\\s+");
-                if(parse.length == 3){
-                    loc[i] = new Location(parse[0], Double.parseDouble(parse[1]), Double.parseDouble(parse[2]));
-                }else{
-                    /* Kasus Non Bonus */
-                    loc[i] = new Location(parse[0], -9999, -9999);
-                }
+                loc[i] = new Location(parse[0], Double.parseDouble(parse[1]), Double.parseDouble(parse[2]));
             }
 
             /* Fill the matrix */
@@ -63,6 +59,15 @@ public class Graph {
         return loc[idx].getCoord();
     }
 
+    /**
+     * Mengembalikan koordinat lokasi berdasarkan indeks
+     * @param i indeks lokasi
+     * @return double[] koordinat lokasi
+     */
+    public double[] getPos(int i){
+        return loc[i].getCoord();
+    }
+
     public String getLocName(int i){
         return loc[i].getLocName();
     }
@@ -86,9 +91,12 @@ public class Graph {
     public int getNodes(){
         return nodes;
     }
+    public int getLocCount(){
+        return loc.length;
+    }
 
     public static void main(String[] args){
-        Graph g = new Graph("test.txt");
+        Graph g = new Graph("map1.txt");
         System.out.println(g.getIndex("Santa_Ursula"));
         for(int i = 0; i < g.getNodes(); i++){
             for(int j = 0; j < g.getNodes(); j++){

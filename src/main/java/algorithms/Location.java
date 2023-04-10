@@ -1,3 +1,4 @@
+package algorithms;
 public class Location {
     private String locName;
     private double x;
