@@ -111,15 +111,15 @@ public class App
         mapViewer.zoomToBestFit(new HashSet<GeoPosition>(solvedPath), 0.2);
 
         // Create waypoints from the geo-positions
-        List<Waypoint> solvedPathWaypoints = new ArrayList<Waypoint>();
-        for (int i = 0; i < solvedPath.size(); i++) {
-            solvedPathWaypoints.add(new DefaultWaypoint(solvedPath.get(i)));
+        List<Waypoint> waypointsList = new ArrayList<Waypoint>();
+        for (int i = 0; i < graph.getLocCount(); i++) {
+            waypointsList.add(new DefaultWaypoint(locationsOnMap[i]));
         }
-        Set<Waypoint> waypoints = new HashSet<Waypoint>(solvedPathWaypoints);
-
+        Set<Waypoint> waypointsSet = new HashSet<Waypoint>(waypointsList);
+        
         // Create a waypoint painter that takes all the waypoints
         WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<Waypoint>();
-        waypointPainter.setWaypoints(waypoints);
+        waypointPainter.setWaypoints(waypointsSet);
 
         // Create a compound painter that uses both the route-painter and the waypoint-painter
         List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
