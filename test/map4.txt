@@ -1,16 +1,16 @@
 8
 Marga_Cinta_Park 10 20
-Anata_Salon 10 10
-Masjid_LDII 20 30
+Anata_Salon 10 30
+Masjid_LDII 20 10
 Toserba 30 20
-PGRI_7 40 10
-Perumahan_Marga_Wangi 50 10
+PGRI_7 30 30
+Perumahan_Marga_Wangi 40 30
 Pertamina 50 20
 Steak_Moen_Moen 40 20
 0 4 1 3 0 0 0 0
 4 0 0 0 0 0 0 0
 1 0 0 3 0 0 0 0
-3 0 3 0 0 0 0 1
+3 0 3 0 1 0 0 1
 0 0 0 1 0 1 0 2
 0 0 0 0 1 0 0 0
 0 0 0 0 0 0 0 1

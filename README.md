@@ -26,9 +26,9 @@ Untuk menjalankan program ini, Anda memerlukan
     2. Nama tempat dan koordinat longitude dan langitude pada peta. Nama tempat tidak menggunakan spasi
     3. Matriks ketetanggaan berbobot yang sesuai
 
-    Untuk kasus akan menggunakan graf yang tidak terkait pada peta, maka adjacency matrix menjadi adjacency matrix berbobot, sedangkan jika terkait maka adjacency matrix berisi status ketetanggan biner (1 atau 0).
+    Untuk kasus akan menggunakan graf yang tidak terkait pada peta, maka matriks ketetanggaan menjadi matriks berbobot, sedangkan jika terkait pada peta, maka matriks ketetanggaan berisi status ketetanggan biner (1 atau 0).
 
-    Kasus graf yang tidak terkait harus menggunakan koordinat kartesius yang bernilai 10 s.d. 100
+    Kasus graf yang tidak terkait dengan peta harus menggunakan koordinat kartesius yang bernilai 10 s.d. 100 dengan aturan koordinat mengikuti matriks (kiri atas 0,0).
 
 2. Setelahnya program akan menampilkan nama-nama lokasi yang tersedia. Pengguna kemudian memasukkan titik awal dan titik tujuan
 

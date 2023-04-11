@@ -60,20 +60,15 @@ public class Graph {
         return (Math.sqrt( Math.pow(l1[0]-l2[0], 2) + Math.pow(l1[1]-l2[1], 2) ));
     }
 
-    static double haversine(double[] l1, double[] l2){
-        // distance between latitudes and longitudes
+    public double haversine(double[] l1, double[] l2){
         double dLat = Math.toRadians(l2[0] - l1[0]);
         double dLon = Math.toRadians(l2[1] - l1[1]);
- 
-        // convert to radians
+
         double lat1 = Math.toRadians(l1[0]);
         double lat2 = Math.toRadians(l2[0]);
  
-        // apply formulae
-        double a = Math.pow(Math.sin(dLat / 2), 2) +
-                   Math.pow(Math.sin(dLon / 2), 2) *
-                   Math.cos(lat1) *
-                   Math.cos(lat2);
+        double a = Math.pow(Math.sin(dLat / 2), 2) + Math.pow(Math.sin(dLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
+
         double rad = 6371;
         double c = 2 * Math.asin(Math.sqrt(a));
         return rad * c;

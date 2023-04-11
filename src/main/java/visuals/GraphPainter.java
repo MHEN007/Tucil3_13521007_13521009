@@ -2,7 +2,6 @@ package visuals;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import algorithms.Graph;
 public class GraphPainter extends JPanel {
@@ -48,27 +47,24 @@ public class GraphPainter extends JPanel {
         }
         // Determine the scale factor
         double width = getWidth(), height = getHeight();
-        double scaleX =( width / (maxX - minX + 1)) * 0.3;
-        double scaleY =( height / (maxY - minY + 1)) * 0.3;
+        double scaleX =( width / (maxX - minX + 1));
+        double scaleY =( height / (maxY - minY + 1));
         double scale = Math.min(scaleX, scaleY);
         
         // Scale and translate the graphics context
-        g2d.scale(scale, scale);
+        g2d.scale(scale *0.5, scale *0.5);
         g2d.translate(minX, minY);
-        // // Rotate the coordinate system by 90 degrees
-        // AffineTransform rotation = AffineTransform.getRotateInstance(Math.PI / 2);
-        // g2d.setTransform(rotation);
-        
+
         // Draw nodes
         g2d.setColor(Color.BLACK);
         int k =0;
-        Font font = new Font("Arial", Font.PLAIN, 7);
+        Font font = new Font("Arial", Font.PLAIN, 3);
         g2d.setFont(font);
         for (Point node : nodes) {
             k += 1;
-            g2d.fillOval(node.x-5, node.y-5, 10, 10);
+            g2d.fillOval(node.x-2, node.y-2, 5, 5);
             g2d.setColor(Color.YELLOW);
-            g2d.drawString(String.valueOf(k), node.x-2, node.y+2);
+            g2d.drawString(String.valueOf(k), node.x, node.y+2);
             g2d.setColor(Color.BLACK);
         }
 

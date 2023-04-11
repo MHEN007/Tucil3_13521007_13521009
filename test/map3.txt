@@ -1,12 +1,12 @@
 8
-Alun-Alun_Bandung 30 40
-Masjid_Raya_Bandung 20 40
-Monumen_Asia_Afrika 40 50
-Parahyangan_Plaza 20 30
-Pendopo_Kota_Bandung 30 30
-Museum_KAA 50 60
-Yogya_Kepatihan 20 10
-Kings 10 20
+Alun-Alun_Bandung 30 30
+Masjid_Raya_Bandung 20 30
+Monumen_Asia_Afrika 40 10
+Parahyangan_Plaza 20 40
+Pendopo_Kota_Bandung 40 40
+Museum_KAA 50 10
+Yogya_Kepatihan 20 50
+Kings 10 50
 0 1 1 1 1 0 0 0
 1 0 2 1 0 0 0 0
 1 2 0 0 0 3 0 0
