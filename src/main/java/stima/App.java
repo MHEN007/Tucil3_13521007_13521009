@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.awt.*;
 
 import javax.swing.JFrame;
 
@@ -19,7 +20,7 @@ import org.jxmapviewer.viewer.Waypoint;
 import org.jxmapviewer.viewer.WaypointPainter;
 
 import algorithms.*;
-import visuals.RoutePainter;
+import visuals.*;
 
 /**
  * Aplikasi yang menerima file input graf map
@@ -82,63 +83,79 @@ public class App
                 System.out.println(path.get(i));
             }
         }
-        System.out.println("Distance: " + _solver.getJarak());
-        
-        // Instantiate JXMapViewer
-        JXMapViewer mapViewer = new JXMapViewer();
 
-        // Display the viewer in a JFrame
-        JFrame frame = new JFrame("Map Viewer");
-        frame.getContentPane().add(mapViewer);
-        frame.setSize(800, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-
-        // Create a TileFactoryInfo for OpenStreetMap
-        TileFactoryInfo info = new OSMTileFactoryInfo();
-        DefaultTileFactory tileFactory = new DefaultTileFactory(info);
-        mapViewer.setTileFactory(tileFactory);
-
-        // Instantiating locations from input file
-        GeoPosition[] locationsOnMap = new GeoPosition[graph.getLocCount()];
-        for (int i = 0; i < graph.getLocCount(); i++) {
-            locationsOnMap[i]= new GeoPosition(graph.getPos(i));
-        }
-
-        // Create a track from the geo-positions
-        List<GeoPosition> solvedPath = new ArrayList<GeoPosition>();
-
-        for (int i = 0; i < path.size(); i++) {
-            solvedPath.add(new GeoPosition(graph.getPos(path.get(i))));
-        }
-        // Calling RoutePainter from visuals
-        RoutePainter routePainter = new RoutePainter(solvedPath);
-
-        // Set the focus
-        double frac = 0.1;
-        if(frac * path.size() <= 1){
-            mapViewer.zoomToBestFit(new HashSet<GeoPosition>(solvedPath), frac*path.size());
+        if(graph.isBonus()){
+            System.out.println("Distance: " + _solver.getJarak() + " km");
         }else{
-            mapViewer.zoomToBestFit(new HashSet<GeoPosition>(solvedPath), 0.2);
+            System.out.println("Distance: " + _solver.getJarak());
         }
-
-        // Create waypoints from the geo-positions
-        List<Waypoint> waypointsList = new ArrayList<Waypoint>();
-        for (int i = 0; i < graph.getLocCount(); i++) {
-            waypointsList.add(new DefaultWaypoint(locationsOnMap[i]));
-        }
-        Set<Waypoint> waypointsSet = new HashSet<Waypoint>(waypointsList);
         
-        // Create a waypoint painter that takes all the waypoints
-        WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<Waypoint>();
-        waypointPainter.setWaypoints(waypointsSet);
+        if(graph.isBonus()){
+            // Instantiate JXMapViewer
+            JXMapViewer mapViewer = new JXMapViewer();
 
-        // Create a compound painter that uses both the route-painter and the waypoint-painter
-        List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
-        painters.add(routePainter);
-        painters.add(waypointPainter);
+            // Display the viewer in a JFrame
+            JFrame frame = new JFrame("Map Viewer");
+            frame.getContentPane().add(mapViewer);
+            frame.setSize(800, 600);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
 
-        CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
-        mapViewer.setOverlayPainter(painter);
+            // Create a TileFactoryInfo for OpenStreetMap
+            TileFactoryInfo info = new OSMTileFactoryInfo();
+            DefaultTileFactory tileFactory = new DefaultTileFactory(info);
+            mapViewer.setTileFactory(tileFactory);
+
+            // Instantiating locations from input file
+            GeoPosition[] locationsOnMap = new GeoPosition[graph.getLocCount()];
+            for (int i = 0; i < graph.getLocCount(); i++) {
+                locationsOnMap[i]= new GeoPosition(graph.getPos(i));
+            }
+
+            // Create a track from the geo-positions
+            List<GeoPosition> solvedPath = new ArrayList<GeoPosition>();
+
+            for (int i = 0; i < path.size(); i++) {
+                solvedPath.add(new GeoPosition(graph.getPos(path.get(i))));
+            }
+            // Calling RoutePainter from visuals
+            RoutePainter routePainter = new RoutePainter(solvedPath);
+
+            // Set the focus
+            double frac = 0.1;
+            if(frac * path.size() <= 1){
+                mapViewer.zoomToBestFit(new HashSet<GeoPosition>(solvedPath), frac*path.size());
+            }else{
+                mapViewer.zoomToBestFit(new HashSet<GeoPosition>(solvedPath), 0.2);
+            }
+
+            // Create waypoints from the geo-positions
+            List<Waypoint> waypointsList = new ArrayList<Waypoint>();
+            for (int i = 0; i < graph.getLocCount(); i++) {
+                waypointsList.add(new DefaultWaypoint(locationsOnMap[i]));
+            }
+            Set<Waypoint> waypointsSet = new HashSet<Waypoint>(waypointsList);
+            
+            // Create a waypoint painter that takes all the waypoints
+            WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<Waypoint>();
+            waypointPainter.setWaypoints(waypointsSet);
+
+            // Create a compound painter that uses both the route-painter and the waypoint-painter
+            List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
+            painters.add(routePainter);
+            painters.add(waypointPainter);
+
+            CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
+            mapViewer.setOverlayPainter(painter);
+        }else{
+            JFrame frame = new JFrame("Graph Viewer");
+            GraphPainter graphPainter = new GraphPainter(path, graph);
+            graphPainter.setPreferredSize(new Dimension(600, 600));
+            frame.add(graphPainter);
+            frame.pack();
+            // frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
+        }
     }
 }

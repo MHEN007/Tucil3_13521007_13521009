@@ -1,6 +1,7 @@
-algorithms\Node.class
 algorithms\Graph.class
 visuals\RoutePainter.class
 stima\App.class
-algorithms\Solver.class
+visuals\GraphPainter.class
 algorithms\Location.class
+algorithms\Node.class
+algorithms\Solver.class

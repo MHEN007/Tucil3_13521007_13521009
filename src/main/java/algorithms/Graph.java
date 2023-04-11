@@ -7,12 +7,13 @@ public class Graph {
     protected int[][] graph;
     protected int nodes;
     protected Location[] loc;
+    protected boolean isBonus;
 
     public Graph(String filename){
         try{
             File file = new File("./test/", filename);
             Scanner reader = new Scanner(file);
-            
+
             /* Ambil jumlah nodes dan set ukuran matrix */
             String nString = reader.nextLine();
             int n = Integer.parseInt(nString);
@@ -36,6 +37,18 @@ public class Graph {
                 }
             }
 
+            /* Penentuan Bonus atau bukan */
+            for(int i = 0; i < n ; i++){
+                for(int j = 0; j < n ; j++){
+                    if(graph[i][j] > 1){
+                        isBonus = false;
+                        break;
+                    }
+                    isBonus = true;
+                }
+            }
+
+            
             reader.close();
 
         }catch (FileNotFoundException e){
@@ -45,6 +58,25 @@ public class Graph {
     }
     public double euclideanDistance(double[] l1, double[] l2){
         return (Math.sqrt( Math.pow(l1[0]-l2[0], 2) + Math.pow(l1[1]-l2[1], 2) ));
+    }
+
+    static double haversine(double[] l1, double[] l2){
+        // distance between latitudes and longitudes
+        double dLat = Math.toRadians(l2[0] - l1[0]);
+        double dLon = Math.toRadians(l2[1] - l1[1]);
+ 
+        // convert to radians
+        double lat1 = Math.toRadians(l1[0]);
+        double lat2 = Math.toRadians(l2[0]);
+ 
+        // apply formulae
+        double a = Math.pow(Math.sin(dLat / 2), 2) +
+                   Math.pow(Math.sin(dLon / 2), 2) *
+                   Math.cos(lat1) *
+                   Math.cos(lat2);
+        double rad = 6371;
+        double c = 2 * Math.asin(Math.sqrt(a));
+        return rad * c;
     }
 
     public double[] getPos(String locName){
@@ -93,5 +125,13 @@ public class Graph {
     }
     public int getLocCount(){
         return loc.length;
+    }
+
+    public Location[] getLocation(){
+        return loc;
+    }
+
+    public boolean isBonus(){
+        return isBonus;
     }
 }

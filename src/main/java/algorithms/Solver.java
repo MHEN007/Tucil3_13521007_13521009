@@ -39,12 +39,21 @@ public class Solver extends Graph{
                     */
                     ArrayList<String> visitNew = new ArrayList<>(check.getPath());
 
+                    Node newNode;
                     visitNew.add(getLocName(i));
-                    Node newNode = new Node(getLocName(i), 
+                    if(isBonus()){
+                        newNode = new Node(getLocName(i), 
+                                            check.getGoal(), 
+                                            haversine(getPos(check.getCurrent()), getPos(getLocName(i))) + check.getGn(), 
+                                            haversine(getPos(getLocName(i)), getPos(check.getGoal())),
+                                            visitNew);
+                    }else{
+                        newNode = new Node(getLocName(i), 
                                             check.getGoal(), 
                                             getGraph(getIndex(check.getCurrent()), i) + check.getGn(), 
                                             euclideanDistance(getPos(getLocName(i)), getPos(check.getGoal())),
                                             visitNew);
+                    }
                     queue.add(newNode);
                 }
             }
@@ -74,10 +83,19 @@ public class Solver extends Graph{
 
                     visitNew.add(getLocName(i));
 
-                    Node newNode = new Node(getLocName(i), 
+                    Node newNode;
+                    
+                    if(isBonus()){
+                        newNode = new Node(getLocName(i), 
+                                            check.getGoal(), 
+                                            haversine(getPos(check.getCurrent()), getPos(getLocName(i))) + check.getGn(), 
+                                            visitNew);
+                    }else{
+                        newNode = new Node(getLocName(i), 
                                             check.getGoal(), 
                                             getGraph(getIndex(check.getCurrent()), i) + check.getGn(), 
                                             visitNew);
+                    }
 
                     queue.add(newNode);
                 }
