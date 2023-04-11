@@ -74,7 +74,7 @@ public class App
             return;
         }
 
-        System.out.println("Shortest Path:");
+        System.out.println("\nShortest Path:");
         for(int i = 0; i < path.size(); i++){
             if(i != path.size() - 1){
                 System.out.print(path.get(i) + " - ");
