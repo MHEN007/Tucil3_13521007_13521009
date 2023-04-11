@@ -10,14 +10,24 @@
 Pada peta, kadang kala diperlukan rute yang terpendek agar dapat menghemat perjalanan, baik dari segi biaya maupun tenaga. Pencarian rute terpendek ini dapat menggunakan beberapa algoritma pada graf. Contoh dari algoritma tersebut adalah algoritma A* dan Uniformed Cost Search.
 
 ## Pre-requisite
-Program akan mengasumsikan bahwa pengguna sudah memiliki dependency sebagai berikut:
-1. maven
-2. java swing
-3. jxmapviewer
+Untuk menjalankan program ini, Anda memerlukan
+1. Java Development Kit. Program dibuat pada versi 19.0.1
+2. Maven untuk JAR packaging
 
-## How to run
-1. clone repository
-2. buka main/java/stima/App.java pada folder src
-3. run program dan program siap untuk digunakan
+## Setup Program
+1. Lakukan clone repository
+2. Pada `root` dari program ini, masukkan perintah `java -jar ./bin/tucil3_13521007_13521009.jar`. Jika perlu melakukan kompilasi ulang maven, masukkan perintah `mvn clean -PotherOutputDir  compile assembly:single`
+3. Program dapat dijalankan
 
-Note: Input file dapat langsung menerima "namafile.txt" yang terdapat di folder test pada direktori utama
+## Cara Menggunakan Program
+1. Program akan meminta pengguna untuk memasukkan nama file dalam bentuk .txt dari peta yang akan dimasukkan. File yang akan dimasukkan diletakkan di folder test. File wajib mengikuti format sebagai berikut,
+
+    1. Dimulai dengan jumlah lokasi pada peta
+    2. Nama tempat dan koordinat longitude dan langitude pada peta. Nama tempat tidak menggunakan spasi
+    3. Matriks ketetanggaan berbobot yang sesuai
+
+2. Setelahnya program akan menampilkan nama-nama lokasi yang tersedia. Pengguna kemudian memasukkan titik awal dan titik tujuan
+
+3. Selanjutnya, pengguna memasukkan algoritma pencarian yang akan digunakan. 1 untuk UCS, 2 untuk A*
+
+4. Program kemudian akan menampilkan rute terpendek, jarak yang ditempuh, beserta visualisasi pada peta
